@@ -23,37 +23,7 @@ if not os.path.exists("index_for_sample_files"):
 
 # Specify a list of paths that contain all of the texts we wish to index
 text_dirs = ["sample_text_collection"]
-
-# Create metadata dict
-metadata_dict = {}
-with codecs.open("sample_text_collection_metadata.txt","r","utf-8") as metadata_in:
-    metadata_rows = metadata_in.read().split("\n")
-    for row in metadata_rows[:-1]:
-        split_row        = row.split("\t")
-        filename         = split_row[0].strip()
-        author           = split_row[1].strip()
-        short_title      = split_row[2].strip()
-
-        print "metadata filename: ", filename
-        print "metadata author: ", author
-        print "metadata shorttitle: ", short_title
-        
-        print "condition: ", filename not in metadata_dict.keys()
-
-        if filename not in metadata_dict.keys():
-            metadata_dict[filename] = {}
-            metadata_dict[filename]["author"]          = author
-            metadata_dict[filename]["short_title"]     = short_title  
-            print "metadata: ", metadata_dict[filename]["author"]
-
-# Create function that will allow one to retrieve metadata fields for a given filename
-def retrieve_metadata(filename):
-    if filename in metadata_dict.keys():
-        return metadata_dict[filename]
-    else:
-        return None
-        print "no metadata for: ", filename
-        
+      
 # Identify the schema we'll use when creating index
 schema = Schema(  filename=TEXT(stored=True), path=TEXT(stored=True), author=TEXT(stored=True), short_title=TEXT(stored=True), full_text=TEXT( stored=True,phrase=True,analyzer=StandardAnalyzer(stoplist=None) )   )
 
@@ -91,8 +61,6 @@ for i in text_dirs:
                         sample_dict[filename]["author"]          = author
                         sample_dict[filename]["short_title"]     = short_title 
 
-            # print "dict: ", sample_dict[filename]["author"]
-            #file_metadata   = retrieve_metadata(filename)
             author          = sample_dict[filename]["author"].decode("utf-8")
             short_title     = sample_dict[filename]["short_title"].decode("utf-8")
             # # Now push full text and metadata fields to the index
