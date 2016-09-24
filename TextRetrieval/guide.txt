@@ -1,0 +1,4 @@
+https://textblob.readthedocs.io/en/dev/
+http://scikit-learn.org/stable/install.html
+http://stackoverflow.com/questions/26693736/nltk-and-stopwords-fail-lookuperror
+https://pythonprogramming.net/linear-svc-example-scikit-learn-svm-python/
