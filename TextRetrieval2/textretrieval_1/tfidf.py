@@ -1,5 +1,7 @@
+from nltk.corpus import stopwords
 import math
-import nltk
+import string
+import codecs, sys, glob, os, unicodedata
 
 
 # Returns list of word tokens for a string
@@ -75,7 +77,9 @@ document_tokens_list = [document_tokens1, document_tokens2, document_tokens3]
 
 # tf_idf_rapport(term, document_tokens2, document_tokens_list)
 
-def append_tokenized(document_tokens_list):
+# Concated [x]terms in [n]documents
+# And pick unique terms
+def concanated_terms_of_documents(document_tokens_list):
     terms = []
     for document_token in document_tokens_list:
         for term in document_token[:]:
@@ -84,4 +88,33 @@ def append_tokenized(document_tokens_list):
     return terms
 
 
-print "terms: ", append_tokenized(document_tokens_list)
+# Define stopword
+def stop_word():
+    terms_with_stop_word = []
+    terms = concanated_terms_of_documents(document_tokens_list)
+    for term in terms:
+        if term not in set(stopwords.words('english')):
+            terms_with_stop_word.append(term)
+    return terms_with_stop_word
+
+
+# Load Punctuation
+tbl = dict.fromkeys(i for i in xrange(sys.maxunicode)
+                    if unicodedata.category(unichr(i)).startswith('P'))
+
+
+# Remove Punctuation
+def remove_punctuation(unicode_text):
+    return unicode_text.translate(tbl)
+
+
+text_dirs = ["business"]
+
+
+def load_document():
+    for i in text_dirs:
+        for j in glob.glob(i + "/*.txt"):
+            print "codec: ", codecs.open(j, "r", "utf-8")
+
+
+print "doc", load_document()
