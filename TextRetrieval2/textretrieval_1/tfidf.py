@@ -72,17 +72,16 @@ document_tokens2 = simple_tokenizer("silver silver silver silver silver")
 document_tokens3 = simple_tokenizer("Shipment of gold arrived in a truck.")
 document_tokens_list = [document_tokens1, document_tokens2, document_tokens3]
 
-terms = []
+
+# tf_idf_rapport(term, document_tokens2, document_tokens_list)
 
 def append_tokenized(document_tokens_list):
+    terms = []
     for document_token in document_tokens_list:
-        print "document_token:: ", document_token
         for term in document_token[:]:
-            terms.append(term)
-    print "terms: ", terms
-    return
+            if term not in terms:
+                terms.append(term)
+    return terms
 
 
-append_tokenized(document_tokens_list)
-tf_idf_rapport(term, document_tokens2, document_tokens_list)
-# RUN OUR SAMPLE SET
+print "terms: ", append_tokenized(document_tokens_list)
