@@ -53,6 +53,7 @@ def tf_idf(term, document_tokens, document_tokens_list):
 
 # prints a rapport of all related values
 def tf_idf_rapport(term, document_tokens, document_tokens_list):
+    print "\n"
     print "Term:", term
     print "Number of documents:", len(document_tokens_list)
     print "Count of document tokens", len(document_tokens[:]), "are:", document_tokens[:]
@@ -71,5 +72,17 @@ document_tokens2 = simple_tokenizer("silver silver silver silver silver")
 document_tokens3 = simple_tokenizer("Shipment of gold arrived in a truck.")
 document_tokens_list = [document_tokens1, document_tokens2, document_tokens3]
 
+terms = []
+
+def append_tokenized(document_tokens_list):
+    for document_token in document_tokens_list:
+        print "document_token:: ", document_token
+        for term in document_token[:]:
+            terms.append(term)
+    print "terms: ", terms
+    return
+
+
+append_tokenized(document_tokens_list)
 tf_idf_rapport(term, document_tokens2, document_tokens_list)
 # RUN OUR SAMPLE SET
