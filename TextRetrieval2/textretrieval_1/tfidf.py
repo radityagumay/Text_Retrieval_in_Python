@@ -28,7 +28,7 @@ def token_count(document_tokens):
 # normalized for document size
 # tf = term count / token count 
 def term_frequency(term, document_tokens):
-    return term_count(term, document_tokens)  # / float(token_count(document_tokens))
+    return term_count(term, document_tokens) / float(token_count(document_tokens))
 
 
 # Returns the number of documents containing the term
@@ -68,11 +68,47 @@ def tf_idf_rapport(term, document_tokens, document_tokens_list):
     print "TF--IDF:\t", tf_idf(term, document_tokens, document_tokens_list)
 
 
+terms = []
+text_dirs = ["articles/sample"]
+
+tbl = dict.fromkeys(i for i in xrange(sys.maxunicode)
+                    if unicodedata.category(unichr(i)).startswith('P'))
+
+
+# StopWord
+def stop_word_2(term):
+    return term not in set(stopwords.words('english'))
+
+
+# Remove Punctuation
+def remove_punctuation(unicode_text):
+    return unicode_text.translate(tbl)
+
+
+def load_document():
+    for i in text_dirs:
+        global documents
+        global size_doc
+        documents = glob.glob(i + "/*.txt")
+        size_doc = len(documents)
+        for j in documents:
+            with codecs.open(j, "r", "utf-8") as raw_file:
+                clean = remove_punctuation(raw_file.read().replace("\r", "").replace("\n", " "))
+                term_metadata = clean.lower().split(None)
+                for term in term_metadata:
+                    if stop_word_2(term):
+                        if term not in terms:
+                            terms.append(term.lower())
+
+
+load_document()
+
 # Simple sample usage
-term = "silver"
+term = "Time"
 document_tokens1 = simple_tokenizer("Shipment of gold damaged in a fire.")
 document_tokens2 = simple_tokenizer("silver silver silver silver silver")
 document_tokens3 = simple_tokenizer("Shipment of gold arrived in a truck.")
 document_tokens_list = [document_tokens1, document_tokens2, document_tokens3]
 
-tf_idf_rapport(term, document_tokens2, document_tokens_list)
+# tf_idf_rapport(term, document_tokens2, document_tokens_list)
+tf_idf_rapport(term, documents[1], terms)
