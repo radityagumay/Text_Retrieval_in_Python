@@ -1,6 +1,7 @@
 from nltk.corpus import stopwords
+from nltk import PorterStemmer
+from stemming.porter2 import stem
 import math
-import string
 import codecs, sys, glob, os, unicodedata
 
 
@@ -89,6 +90,7 @@ def concanated_terms_of_documents(document_tokens_list):
 
 
 # Define stopword
+# the, a, of, etc
 def stop_word():
     terms_with_stop_word = []
     terms = concanated_terms_of_documents(document_tokens_list)
@@ -99,6 +101,7 @@ def stop_word():
 
 
 # Load Punctuation
+# . ? % $ [etc]
 tbl = dict.fromkeys(i for i in xrange(sys.maxunicode)
                     if unicodedata.category(unichr(i)).startswith('P'))
 
@@ -108,15 +111,22 @@ def remove_punctuation(unicode_text):
     return unicode_text.translate(tbl)
 
 
-text_dirs = ["business"]
+text_dirs = ["articles/junk"]
+
+# Create array to put clean document
+# We will use to calc tf-idf
+clean_document = []
 
 
 def load_document():
     for i in text_dirs:
         for j in glob.glob(i + "/*.txt"):
+            print "j in: ", j
             with codecs.open(j, "r", "utf-8") as raw_file:
-                cleaner_file = remove_punctuation(raw_file.read().replace("\r", "").replace("\n", " "))
-                print "cleaner_file", cleaner_file
+                clean_document = remove_punctuation(raw_file.read().replace("\r", "").replace("\n", " "))
+                print "clean_document", clean_document
 
 
-print "doc", load_document()
+# print "doc", load_document()
+
+print "stem", stem("factionally")
