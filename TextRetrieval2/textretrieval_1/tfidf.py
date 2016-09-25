@@ -114,7 +114,9 @@ text_dirs = ["business"]
 def load_document():
     for i in text_dirs:
         for j in glob.glob(i + "/*.txt"):
-            print "codec: ", codecs.open(j, "r", "utf-8")
+            with codecs.open(j, "r", "utf-8") as raw_file:
+                cleaner_file = remove_punctuation(raw_file.read().replace("\r", "").replace("\n", " "))
+                print "cleaner_file", cleaner_file
 
 
 print "doc", load_document()
