@@ -86,15 +86,22 @@ def load_document():
                 for term in term_metadata:
                     if stop_word_2(term):
                         if term not in terms:
-                            terms.append(stemming_by_porter_2(term.lower()))
+                            terms.append(term.lower())
 
 
 def write_terms():
     with codecs.open("terms/terms.txt", "w", "utf-8") as temp:
+        for term in terms:
+            temp.write(stemming_by_porter_2(term) + " ")
+
+
+def write_original_terms():
+    with codecs.open("terms/origin_terms.txt", "w", "utf-8") as temp:
         for term in terms:
             temp.write(term + " ")
 
 
 load_document()
 write_terms()
+write_original_terms()
 print "Terms: ", terms
