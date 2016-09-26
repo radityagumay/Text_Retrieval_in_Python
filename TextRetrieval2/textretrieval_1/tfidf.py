@@ -104,7 +104,7 @@ def load_document():
 load_document()
 
 # Simple sample usage
-term = "Time"
+term = "better"
 document_tokens1 = simple_tokenizer("Shipment of gold damaged in a fire.")
 document_tokens2 = simple_tokenizer("silver silver silver silver silver")
 document_tokens3 = simple_tokenizer("Shipment of gold arrived in a truck.")
