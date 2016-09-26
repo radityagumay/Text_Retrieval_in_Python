@@ -78,13 +78,11 @@ def load_document():
     for i in text_dirs:
         global documents
         global size_doc
-        global response
         documents = glob.glob(i + "/*.txt")
         size_doc = len(documents)
         for j in documents:
+            response = {"document": {j: []}}
             with codecs.open(j, "r", "utf-8") as raw_file:
-                print "raw_file: ", raw_file
-                print "\n"
                 clean = remove_punctuation(raw_file.read().replace("\r", "").replace("\n", " "))
                 term_metadata = clean.lower().split(None)
                 for term in term_metadata:
@@ -92,14 +90,16 @@ def load_document():
                         if term not in terms:
                             lower_term = term.lower()
                             terms.append(lower_term)
-                        response = json.dump(terms, )
+                            response["document"][j].append(lower_term)
+        print "response:", response
+
 
 data = {'list': []}
 data['list'].append({'a': '1'})
 data['list'].append({'b': '2'})
-print "data", data
+# print "data", data
 
-# load_document()
+load_document()
 
 #
 # for row in range(0, 10):
