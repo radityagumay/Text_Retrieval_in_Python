@@ -38,7 +38,7 @@ def remove_punctuation(unicode_text):
     return unicode_text.translate(tbl)
 
 
-text_dirs = ["articles/sample"]
+text_dirs = ["articles/business"]
 
 # Create array to put clean document
 # We will use to calc tf-idf
