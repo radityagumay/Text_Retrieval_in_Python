@@ -38,7 +38,7 @@ def remove_punctuation(unicode_text):
     return unicode_text.translate(tbl)
 
 
-text_dirs = ["articles/business"]
+text_dirs = ["articles/*"]
 
 # Create array to put clean document
 # We will use to calc tf-idf
@@ -81,6 +81,8 @@ def load_document():
         size_doc = len(documents)
         for j in documents:
             with codecs.open(j, "r", "utf-8") as raw_file:
+                print "raw_file: ", raw_file
+                print "\n"
                 clean = remove_punctuation(raw_file.read().replace("\r", "").replace("\n", " "))
                 term_metadata = clean.lower().split(None)
                 for term in term_metadata:
