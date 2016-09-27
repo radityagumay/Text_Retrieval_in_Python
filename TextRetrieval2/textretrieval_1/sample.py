@@ -81,7 +81,7 @@ def load_document():
         documents = glob.glob(i + "/*.txt")
         size_doc = len(documents)
         for j in documents:
-            response = {"document": {j: []}}
+            response = {"documents": {j: []}}
             with codecs.open(j, "r", "utf-8") as raw_file:
                 clean = remove_punctuation(raw_file.read().replace("\r", "").replace("\n", " "))
                 term_metadata = clean.lower().split(None)
