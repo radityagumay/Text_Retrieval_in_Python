@@ -106,4 +106,5 @@ def write_original_terms():
 load_document()
 write_terms()
 write_original_terms()
+
 print "Terms: ", terms
