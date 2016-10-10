@@ -58,35 +58,4 @@ def tfidf(documents):
         tfidf_documents.append(doc_tfidf)
     return tfidf_documents
 
-
-# in Scikit-Learn
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-sklearn_tfidf = TfidfVectorizer(norm='l2', min_df=0, use_idf=True, smooth_idf=False, sublinear_tf=True,
-                                tokenizer=tokenize)
-sklearn_representation = sklearn_tfidf.fit_transform(all_documents)
-
-
-########### END BLOG POST 1 #############
-
-def cosine_similarity(vector1, vector2):
-    dot_product = sum(p * q for p, q in zip(vector1, vector2))
-    magnitude = math.sqrt(sum([val ** 2 for val in vector1])) * math.sqrt(sum([val ** 2 for val in vector2]))
-    if not magnitude:
-        return 0
-    return dot_product / magnitude
-
-
-tfidf_representation = tfidf(all_documents)
-our_tfidf_comparisons = []
-for count_0, doc_0 in enumerate(tfidf_representation):
-    for count_1, doc_1 in enumerate(tfidf_representation):
-        our_tfidf_comparisons.append((cosine_similarity(doc_0, doc_1), count_0, count_1))
-
-skl_tfidf_comparisons = []
-for count_0, doc_0 in enumerate(sklearn_representation.toarray()):
-    for count_1, doc_1 in enumerate(sklearn_representation.toarray()):
-        skl_tfidf_comparisons.append((cosine_similarity(doc_0, doc_1), count_0, count_1))
-
-for x in zip(sorted(our_tfidf_comparisons, reverse=True), sorted(skl_tfidf_comparisons, reverse=True)):
-    print x
+print "run", tfidf(all_documents)
