@@ -23,25 +23,35 @@ def concanated_terms_of_documents(document_tokens_list):
     return terms
 
 
-# Remove useless word
-def stop_word():
-    terms_with_stop_word = []
-    terms = concanated_terms_of_documents(document_tokens_list)
-    for term in terms:
-        if term not in set(stopwords.words('english')):
-            terms_with_stop_word.append(term)
-    return terms_with_stop_word
+def stop_word_2(term):
+    return term not in set(stopwords.words('english'))
+
+
 #### END OF STOPWORD #####
 
 def stemming_by_porter_2(term):
     return stem(term)
 
-class rtfidf:
+
+class tfidf:
     def __init__(self):
-        self.weight = False
         self.document = []
         self.corpus_dic = {}
+        self.terms_documents = []
 
-    def addDocument(self, doc_name, list_of_word):
+    def addDocument(self, doc_name, raw):
         doc_dict = {}
-        for i in list_of_word:
+        terms = remove_punctuation(raw)
+        list_of_word = terms.lower().split(None)
+        for w in list_of_word:
+            if (stop_word_2(w)):
+                self.terms_documents.append(w.lower())
+                doc_dict[w] = doc_dict.get(w, 0.0) + 1.0
+                self.corpus_dic[w] = self.corpus_dic.get(w, 0.0) + 1.0
+
+        length = float(len(list_of_word))
+        for k in doc_dict:
+            doc_dict[k] = doc_dict[k] / length
+
+        self.document.append([doc_name, doc_dict])
+        print "log"
