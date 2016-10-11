@@ -27,10 +27,17 @@ def stop_word_2(term):
     return term not in set(stopwords.words('english'))
 
 
-#### END OF STOPWORD #####
-
 def stemming_by_porter_2(term):
     return stem(term)
+
+
+def term_count(term, document_tokens):
+    return document_tokens.count(term.lower())
+
+
+# Terms occurence int each document
+def term_frequency(term, document_tokens):
+    return term_count(term, document_tokens) / float(token_count(document_tokens))
 
 
 class tfidf:
@@ -38,6 +45,15 @@ class tfidf:
         self.document = []
         self.corpus_dic = {}
         self.terms_documents = []
+
+    def buildTerms(self, termsCollection):
+        words = remove_punctuation(termsCollection.read().replace("\r", "").replace("\n", " "))
+        terms = words.lower().split(None)
+        for term in terms:
+            if (stop_word_2(term)):
+                if terms not in self.terms_documents:
+                    self.terms_documents.append(term.lower())
+        print "log"
 
     def addDocument(self, doc_name, raw):
         doc_dict = {}
